@@ -19,50 +19,128 @@ This file is part of Reverse Notation Calc.
 #include <stdlib.h>
 #include "mystack.h"
 
+/* Function for Numbers stack */
 void my_stack_init(my_stack* stack, size_t size)
 {
-    stack->size = size;
-    stack->count = 0;
-    stack->ptr = calloc(stack->size, sizeof(int));
+    stack->int_size = size;
+    stack->int_count = 0;
+    stack->ptr = calloc(stack->int_size, sizeof(int));
 }
 
 void my_stack_done(my_stack* stack)
 {
-    stack->size = 0;
-    stack->count = 0;
+    stack->int_size = 0;
+    stack->int_count = 0;
     free(stack->ptr);
+}
+
+void my_stack_clean(my_stack* stack)
+{
+    stack->int_count = 0;
+}
+
+int my_stack_count(my_stack* stack)
+{
+    return stack->int_count;
 }
 
 void my_stack_push(my_stack* stack, int value)
 {
-    if (stack->count >= stack->size) {
+    if (stack->int_count >= stack->int_size) {
         return;
     }
-    stack->ptr[stack->count++] = value;
+    stack->ptr[stack->int_count++] = value;
 }
 
 int my_stack_pull(my_stack* stack)
 {
-    if (stack->count == 0) {
+    if (stack->int_count == 0) {
         return -1;
     }
-    return stack->ptr[--stack->count];
+    return stack->ptr[--stack->int_count];
 }
 
 int my_stack_top(my_stack* stack)
 {
-    if (stack->count == 0) {
+    if (stack->int_count == 0) {
         return -1;
     }
-    return stack->ptr[stack->count];
+    return stack->ptr[stack->int_count];
 }
 
 int my_stack_is_empty(my_stack* stack)
 {
-    return stack->count == 0;
+    return stack->int_count == 0;
 }
 
 int my_stack_is_full(my_stack* stack)
 {
-    return stack->count >= stack->size;
+    return stack->int_count >= stack->int_size;
+}
+
+/* Function for Char stack*/
+void char_stack_init(ch_stack* stack, size_t size)
+{
+    stack->ch_size = size;
+    stack->ch_count = 0;
+    stack->ch = calloc(stack->ch_size, sizeof(char));
+}
+
+void char_stack_done(ch_stack* stack)
+{
+    stack->ch_size = 0;
+    stack->ch_count = 0;
+    free(stack->ch);
+}
+
+void char_stack_clean(ch_stack* stack)
+{
+    stack->ch_count = 0;
+}
+
+int char_stack_count(ch_stack* stack)
+{
+    return stack->ch_count;
+}
+
+void char_stack_push(ch_stack* stack, char value)
+{
+    if (stack->ch_count >= stack->ch_size) {
+        return;
+    }
+    stack->ch[stack->ch_count++] = value;
+}
+
+char char_stack_pull(ch_stack* stack)
+{
+    if (stack->ch_count == 0) {
+        return -1;
+    }
+    return stack->ch[--stack->ch_count];
+}
+
+char char_stack_get_deep(ch_stack* stack, int index)
+{
+    if (stack->ch_count == 0 || index < 0 || stack->ch_count < index) {
+        return -1;
+    }
+    return stack->ch[index];
+}
+
+int char_stack_top(ch_stack* stack)
+{
+    if (stack->ch_count == 0) {
+        return -1;
+    }
+    return stack->ch[stack->ch_count];
+}
+
+int char_stack_is_empty(ch_stack* stack)
+{
+    return stack->ch_count == 0;
+}
+
+int char_stack_is_full(ch_stack* stack)
+{
+    return stack->ch_count >= stack->ch_size;
 }

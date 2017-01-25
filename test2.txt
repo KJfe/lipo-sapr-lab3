@@ -1,0 +1,5 @@
+"Hello my " """Earth""" +s
+
+"hi freands ""Kuka"" is " 5945600 +n
+
+"Repeat text" 3 *s
